@@ -66,10 +66,14 @@ public class Main extends ApplicationAdapter {
         stephenPos = new Vector2(stephenhawking_s.getX(), stephenhawking_s.getY());
 
         if (Gdx.input.isKeyPressed(Input.Keys.W)){
+            stephenhawking_s.setFlip(false, false);
             stephenhawking_s.translateY(speed * dt);
         } else if (Gdx.input.isKeyPressed(Input.Keys.S)){
             stephenhawking_s.translateY(-speed * dt);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.D)){
+            stephenhawking_s.setFlip(true, false);
+        } 
+        
+        if (Gdx.input.isKeyPressed(Input.Keys.D)){
             stephenhawking_s.translateX(speed * dt);
         } else if (Gdx.input.isKeyPressed(Input.Keys.A)){
             stephenhawking_s.translateX(-speed * dt);
@@ -80,8 +84,10 @@ public class Main extends ApplicationAdapter {
             viewport.unproject(touchPos);
 
             if (stephenPos.x < touchPos.x && abs(stephenPos.x - touchPos.x) > 0.5){
+                stephenhawking_s.setFlip(false, false);
                 stephenhawking_s.translateX(speed * dt);
             }else if (stephenPos.x > touchPos.x && abs(stephenPos.x - touchPos.x) > 0.5){
+                stephenhawking_s.setFlip(true, false);
                 stephenhawking_s.translateX(-speed * dt);
             }
 
