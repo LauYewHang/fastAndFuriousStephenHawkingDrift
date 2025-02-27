@@ -79,27 +79,18 @@ public class Main extends ApplicationAdapter {
             touchPos.set(Gdx.input.getX(), Gdx.input.getY());
             viewport.unproject(touchPos);
 
-            if (stephenPos.x < touchPos.x && abs(stephenPos.x - touchPos.x) > 2){
+            if (stephenPos.x < touchPos.x && abs(stephenPos.x - touchPos.x) > 0.5){
                 stephenhawking_s.translateX(speed * dt);
-            }else if (stephenPos.x > touchPos.x && abs(stephenPos.x - touchPos.x) > 2){
+            }else if (stephenPos.x > touchPos.x && abs(stephenPos.x - touchPos.x) > 0.5){
                 stephenhawking_s.translateX(-speed * dt);
             }
 
-            if (stephenPos.y < touchPos.y && abs(stephenPos.y - touchPos.y) > 2){
+            if (stephenPos.y < touchPos.y && abs(stephenPos.y - touchPos.y) > 0.5){
                 stephenhawking_s.translateY(speed * dt);
-            }else if (stephenPos.y > touchPos.y && abs(stephenPos.y - touchPos.y) > 2){
+            }else if (stephenPos.y > touchPos.y && abs(stephenPos.y - touchPos.y) > 0.5){
                 stephenhawking_s.translateY(-speed * dt);
             }
         }
-
-        System.out.print("stephenpos: ");
-        System.out.print(stephenPos.x);
-        System.out.print(" ");
-        System.out.println(stephenPos.y);
-        System.out.print("touchpos: ");
-        System.out.print(touchPos.x);
-        System.out.print(" ");
-        System.out.println(touchPos.y);
     }
 
     private void logic(){
