@@ -24,7 +24,9 @@ public class Main extends ApplicationAdapter {
     private Texture poster;
     private Music bgm;
     private Texture stephenhawking;
-    private Sprite stephenhawking_s;
+    private StephenHawking stephenhawking_s;
+    private Texture fire;
+    private Sprite fire_s;
 
     // vector
     private Vector2 touchPos;
@@ -39,8 +41,17 @@ public class Main extends ApplicationAdapter {
         // load the assets
         poster = new Texture("fastandfurious2.png");
         stephenhawking = new Texture("stephenhawking.png");
-        stephenhawking_s = new Sprite(stephenhawking);
+        stephenhawking_s = new StephenHawking(stephenhawking);
+        stephenhawking_s.setOrigin(stephenhawking_s.getWidth()/2, stephenhawking_s.getHeight()/2);
+        stephenhawking_s.setOriginCenter();
         stephenhawking_s.setSize(2, 2);
+        stephenhawking_s.setPosition(0, 0);
+
+        fire = new Texture("fire.png");
+        fire_s = new Sprite(fire);
+        fire_s.setSize(1, 1);
+        fire_s.setOrigin(fire_s.getWidth()/2, fire_s.getHeight()/2);
+        fire_s.setRotation(90);
 
         // the bgm
         bgm = Gdx.audio.newMusic(Gdx.files.internal("Max Coveri - Running In the 90's 8bit.mp3"));
@@ -60,10 +71,11 @@ public class Main extends ApplicationAdapter {
     }
 
     private void input(){
-        float speed = 10f;
+        float speed = 6f;
         float dt = Gdx.graphics.getDeltaTime();
 
         stephenPos = new Vector2(stephenhawking_s.getX(), stephenhawking_s.getY());
+        fire_s.setPosition(stephenPos.x, stephenPos.y);
 
         if (Gdx.input.isKeyPressed(Input.Keys.W)){
             stephenhawking_s.translateY(speed * dt);
@@ -100,7 +112,9 @@ public class Main extends ApplicationAdapter {
     }
 
     private void logic(){
-
+        System.out.print(fire_s.getX());
+        System.out.print(fire_s.getY());
+        System.out.println();
     }
 
     private void draw(){
@@ -113,6 +127,7 @@ public class Main extends ApplicationAdapter {
         float worldHeight = viewport.getWorldHeight();
 
         batch.draw(poster, 0, 0, worldWidth, worldHeight);
+        fire_s.draw(batch);
         stephenhawking_s.draw(batch);
 
         batch.end();
