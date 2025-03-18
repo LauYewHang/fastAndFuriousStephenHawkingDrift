@@ -28,6 +28,7 @@ public class Main extends ApplicationAdapter {
     public Environment environment;
 
     Vector3 position = new Vector3();
+    float eulerRotation = 0;
 
     @Override
     public void create() {
@@ -60,6 +61,7 @@ public class Main extends ApplicationAdapter {
     public void render(){
         movement();
         rotate();
+        eulerRotate();
 
         Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
@@ -94,12 +96,24 @@ public class Main extends ApplicationAdapter {
         instance.transform.setTranslation(position);
     }
 
-    private void rotate() {
+    private void rotate(){
         if (Gdx.input.isKeyPressed(Input.Keys.J))
             instance.transform.rotate(Vector3.X, Gdx.graphics.getDeltaTime() * 100);
         if (Gdx.input.isKeyPressed(Input.Keys.K))
             instance.transform.rotate(Vector3.Y, Gdx.graphics.getDeltaTime() * 100);
         if (Gdx.input.isKeyPressed(Input.Keys.L))
             instance.transform.rotate(Vector3.Z, Gdx.graphics.getDeltaTime() * 100);
+
+        if (Gdx.input.isKeyPressed(Input.Keys.I))
+            instance.transform.setToRotation(Vector3.X, Gdx.graphics.getDeltaTime() * 100);
+        if (Gdx.input.isKeyPressed(Input.Keys.O))
+            instance.transform.setToRotation(Vector3.Y, Gdx.graphics.getDeltaTime() * 100);
+        if (Gdx.input.isKeyPressed(Input.Keys.P))
+            instance.transform.setToRotation(Vector3.Z, Gdx.graphics.getDeltaTime() * 100);
+    }
+
+    private void eulerRotate(){
+        eulerRotation = (eulerRotation + Gdx.graphics.getDeltaTime() * 100) % 360;
+        instance.transform.setFromEulerAngles(eulerRotation, eulerRotation, eulerRotation).trn(position);
     }
 }
