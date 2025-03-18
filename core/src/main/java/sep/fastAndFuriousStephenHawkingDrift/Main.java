@@ -2,6 +2,7 @@ package sep.fastAndFuriousStephenHawkingDrift;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
@@ -76,7 +77,16 @@ public class Main extends ApplicationAdapter {
     private void movement(){
         System.out.println(instance.transform.getTranslation(position));
         instance.transform.getTranslation(position);
-        position.x += Gdx.graphics.getDeltaTime();
+        
+        if (Gdx.input.isKeyPressed(Input.Keys.W))
+            position.x += Gdx.graphics.getDeltaTime();
+        if (Gdx.input.isKeyPressed(Input.Keys.S))
+            position.x -= Gdx.graphics.getDeltaTime();
+        if (Gdx.input.isKeyPressed(Input.Keys.A))
+            position.z -= Gdx.graphics.getDeltaTime();
+        if (Gdx.input.isKeyPressed(Input.Keys.D))
+            position.z += Gdx.graphics.getDeltaTime();
+
         instance.transform.setTranslation(position);
     }
 }
