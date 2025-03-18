@@ -29,6 +29,8 @@ public class Main extends ApplicationAdapter {
 
     Vector3 position = new Vector3();
     float eulerRotation = 0;
+    float scale = 1f;
+    boolean increment = true;
 
     @Override
     public void create() {
@@ -61,7 +63,7 @@ public class Main extends ApplicationAdapter {
     public void render(){
         movement();
         rotate();
-        eulerRotate();
+        eulerTransform();
 
         Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
@@ -112,8 +114,20 @@ public class Main extends ApplicationAdapter {
             instance.transform.setToRotation(Vector3.Z, Gdx.graphics.getDeltaTime() * 100);
     }
 
-    private void eulerRotate(){
+    private void eulerTransform(){
         eulerRotation = (eulerRotation + Gdx.graphics.getDeltaTime() * 100) % 360;
-        instance.transform.setFromEulerAngles(eulerRotation, eulerRotation, eulerRotation).trn(position);
+        if (increment){
+            scale = (scale + Gdx.graphics.getDeltaTime() / 5);
+            if (scale >= 1.5f){
+                increment = false;
+            }
+        } else{
+            scale = (scale - Gdx.graphics.getDeltaTime() / 5);
+            if (scale <= 0.5f){
+                increment = true;
+            }
+        }
+
+        instance.transform.setFromEulerAngles(eulerRotation, eulerRotation, eulerRotation).trn(position.x, position.y, position.z).scale(scale, scale, scale);
     }
 }
