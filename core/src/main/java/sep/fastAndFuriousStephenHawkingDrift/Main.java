@@ -59,6 +59,7 @@ public class Main extends ApplicationAdapter {
     @Override
     public void render(){
         movement();
+        rotate();
 
         Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
@@ -75,7 +76,10 @@ public class Main extends ApplicationAdapter {
     }
 
     private void movement(){
+        System.out.print("Position: ");
         System.out.println(instance.transform.getTranslation(position));
+        System.out.print("Transform: ");
+        System.out.println(instance.transform);
         instance.transform.getTranslation(position);
         
         if (Gdx.input.isKeyPressed(Input.Keys.W))
@@ -88,5 +92,14 @@ public class Main extends ApplicationAdapter {
             position.z += Gdx.graphics.getDeltaTime();
 
         instance.transform.setTranslation(position);
+    }
+
+    private void rotate() {
+        if (Gdx.input.isKeyPressed(Input.Keys.J))
+            instance.transform.rotate(Vector3.X, Gdx.graphics.getDeltaTime() * 100);
+        if (Gdx.input.isKeyPressed(Input.Keys.K))
+            instance.transform.rotate(Vector3.Y, Gdx.graphics.getDeltaTime() * 100);
+        if (Gdx.input.isKeyPressed(Input.Keys.L))
+            instance.transform.rotate(Vector3.Z, Gdx.graphics.getDeltaTime() * 100);
     }
 }
