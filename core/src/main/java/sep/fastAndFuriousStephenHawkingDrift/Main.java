@@ -3,6 +3,7 @@ package sep.fastAndFuriousStephenHawkingDrift;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
@@ -19,6 +20,10 @@ import com.badlogic.gdx.math.Vector3;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends ApplicationAdapter {
+    public static final float VIRTUAL_WIDTH = 960;
+    public static final float VIRTUAL_HEIGHT = 540;
+    Screen screen;
+
     public PerspectiveCamera cam; // a 3d camera object
 
     public Model model; // create a 3d model
@@ -31,9 +36,12 @@ public class Main extends ApplicationAdapter {
     float eulerRotation = 0;
     float scale = 1f;
     boolean increment = true;
+    private float speed = 10f;
 
     @Override
     public void create() {
+        Gdx.input.setCatchKey(Input.Keys.BACK, true);
+
         cam = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         // PerspectiveCamera: fieldOfViewY, viewportWidth, viewportHeight
         // fieldOfViewY: the Y depth of camera (how far you can see?)
@@ -63,7 +71,7 @@ public class Main extends ApplicationAdapter {
     public void render(){
         movement();
         rotate();
-        eulerTransform();
+        //eulerTransform();
 
         Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
@@ -87,13 +95,13 @@ public class Main extends ApplicationAdapter {
         instance.transform.getTranslation(position);
         
         if (Gdx.input.isKeyPressed(Input.Keys.W))
-            position.x += Gdx.graphics.getDeltaTime();
+            position.x += Gdx.graphics.getDeltaTime() * speed;
         if (Gdx.input.isKeyPressed(Input.Keys.S))
-            position.x -= Gdx.graphics.getDeltaTime();
+            position.x -= Gdx.graphics.getDeltaTime() * speed;
         if (Gdx.input.isKeyPressed(Input.Keys.A))
-            position.z -= Gdx.graphics.getDeltaTime();
+            position.z -= Gdx.graphics.getDeltaTime() * speed;
         if (Gdx.input.isKeyPressed(Input.Keys.D))
-            position.z += Gdx.graphics.getDeltaTime();
+            position.z += Gdx.graphics.getDeltaTime() * speed;
 
         instance.transform.setTranslation(position);
     }
