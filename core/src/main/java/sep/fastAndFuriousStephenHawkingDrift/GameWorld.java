@@ -1,9 +1,20 @@
 package sep.fastAndFuriousStephenHawkingDrift;
 
+import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
+import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Environment;
+import com.badlogic.gdx.graphics.g3d.Material;
+import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
+import com.badlogic.gdx.graphics.g3d.attributes.FloatAttribute;
+import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+
+import sep.fastAndFuriousStephenHawkingDrift.components.ModelComponent;
+import sep.fastAndFuriousStephenHawkingDrift.render.RenderSystem;
 
 public class GameWorld{
     private static final float FOV = 67f;
@@ -11,10 +22,21 @@ public class GameWorld{
     private Environment environment;
     private PerspectiveCamera cam;
 
+    ModelBuilder modelBuilder = new ModelBuilder();
+    Material boxMaterial = new Material(ColorAttribute.createDiffuse(Color.WHITE), ColorAttribute.createSpecular(Color.RED), FloatAttribute.createShininess(16f));
+    Model box = modelBuilder.createBox(5, 5, 5, boxMaterial, VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
+
+    Entity entity = new Entity();
+    Engine engine = new Engine();
+
     public GameWorld(){
         initPersCamera();
         initEnvironment();
         initModelBatch();
+
+        entity.add(new ModelComponent(box, 10, 10, 10));
+        engine.addSystem(new RenderSystem(modelBatch, environment));
+        engine.addEntity(entity);
     }
 
     private void initPersCamera(){
@@ -46,6 +68,7 @@ public class GameWorld{
 
     public void render(float delta){
         modelBatch.begin(cam);
+        engine.update(delta);
         modelBatch.end();
     }
 }
