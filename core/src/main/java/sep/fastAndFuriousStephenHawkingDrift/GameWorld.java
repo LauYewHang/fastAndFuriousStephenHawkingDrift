@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g3d.attributes.FloatAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 
 import sep.fastAndFuriousStephenHawkingDrift.components.ModelComponent;
+import static sep.fastAndFuriousStephenHawkingDrift.managers.EntityFactory.createStaticEntity;
 import sep.fastAndFuriousStephenHawkingDrift.render.RenderSystem;
 
 public class GameWorld{
@@ -25,8 +26,10 @@ public class GameWorld{
     ModelBuilder modelBuilder = new ModelBuilder();
     Material boxMaterial = new Material(ColorAttribute.createDiffuse(Color.WHITE), ColorAttribute.createSpecular(Color.RED), FloatAttribute.createShininess(16f));
     Model box = modelBuilder.createBox(5, 5, 5, boxMaterial, VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
+    Model sphere = modelBuilder.createSphere(10, 10, 10, 10, 10, boxMaterial, VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
 
     Entity entity = new Entity();
+    Entity entity2 = new Entity();
     Engine engine = new Engine();
 
     public GameWorld(){
@@ -35,8 +38,13 @@ public class GameWorld{
         initModelBatch();
 
         entity.add(new ModelComponent(box, 10, 10, 10));
+        entity.add(new ModelComponent(box, 20, 20, 20));
+        entity2.add(new ModelComponent(sphere, 30, 20, 0));
         engine.addSystem(new RenderSystem(modelBatch, environment));
         engine.addEntity(entity);
+        engine.addEntity(entity2);
+
+        engine.addEntity(createStaticEntity(box, -30, -20, -40));
     }
 
     private void initPersCamera(){
@@ -64,6 +72,7 @@ public class GameWorld{
     public void resize(int width, int height){
         cam.viewportHeight = height;
         cam.viewportWidth = width;
+        System.err.println("GameWorld resize");
     }
 
     public void render(float delta){
