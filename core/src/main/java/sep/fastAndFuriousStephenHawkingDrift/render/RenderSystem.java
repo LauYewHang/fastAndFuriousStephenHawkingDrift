@@ -18,19 +18,15 @@ public class RenderSystem extends EntitySystem{
     public RenderSystem(ModelBatch batch, Environment environment){
         this.batch = batch;
         this.environment = environment;
-        System.out.println("created render system");
     }
 
     @Override
     public void addedToEngine(Engine e){
         entities = e.getEntitiesFor(Family.all(ModelComponent.class).get());
-        System.out.println("added entity");
-        System.out.println(entities.size());
     }
 
     @Override
     public void update(float delta){
-        System.out.println(entities.size());
         for (int i = 0; i < entities.size(); i++){
             ModelComponent mod = entities.get(i).getComponent(ModelComponent.class);
             batch.render(mod.instance, environment);
