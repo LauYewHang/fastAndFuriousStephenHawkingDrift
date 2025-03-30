@@ -17,7 +17,8 @@ import sep.fastAndFuriousStephenHawkingDrift.render.MotionState;
 public class EntityFactory{
     // create static entity: entity that doesn't move
     public static Entity createStaticEntity(Model model, float x, float y, float z){
-        Bullet.init(); // VERY IMPORTANT, must initialize before using anything in bullet
+        // Bullet.init(); // VERY IMPORTANT, must initialize before using anything in bullet
+        // update: should be put in GameWorld instead
         
         final BoundingBox boundingBox = new BoundingBox();
         model.calculateBoundingBox(boundingBox);
