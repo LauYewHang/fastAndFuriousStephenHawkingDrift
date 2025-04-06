@@ -14,17 +14,22 @@ import com.badlogic.gdx.graphics.g3d.attributes.FloatAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.physics.bullet.Bullet;
 
+import sep.fastAndFuriousStephenHawkingDrift.components.CharacterComponent;
 import sep.fastAndFuriousStephenHawkingDrift.components.ModelComponent;
 import sep.fastAndFuriousStephenHawkingDrift.managers.EntityFactory;
 import static sep.fastAndFuriousStephenHawkingDrift.managers.EntityFactory.createStaticEntity;
-import sep.fastAndFuriousStephenHawkingDrift.render.BulletSystem;
-import sep.fastAndFuriousStephenHawkingDrift.render.RenderSystem;
+import sep.fastAndFuriousStephenHawkingDrift.systems.BulletSystem;
+import sep.fastAndFuriousStephenHawkingDrift.systems.PlayerSystem;
+import sep.fastAndFuriousStephenHawkingDrift.systems.RenderSystem;
 
 public class GameWorld{
     private static final float FOV = 67f;
     private ModelBatch modelBatch;
     private Environment environment;
     private PerspectiveCamera cam;
+
+    // the player
+    private Entity character;
 
     ModelBuilder modelBuilder = new ModelBuilder();
 
@@ -74,12 +79,21 @@ public class GameWorld{
     // add entities
     private void addEntities(){
         createGround();
+        createPlayer(5, 3, 5);
     }
 
     private void addSystems(){
         engine = new Engine();
         engine.addSystem(new RenderSystem(modelBatch, environment));
         engine.addSystem(bulletSystem = new BulletSystem());
+        engine.addSystem(new PlayerSystem(this, cam));
+    }
+
+/*-------------------------------------------------------------------------------------------------*/
+    // create player entity
+    private void createPlayer(float x, float y, float z){
+        character = EntityFactory.createPlayer(bulletSystem, x, y, z);
+        engine.addEntity(character);
     }
 
 /*-------------------------------------------------------------------------------------------------*/
@@ -94,6 +108,12 @@ public class GameWorld{
 
 /*-------------------------------------------------------------------------------------------------*/
     public void dispose(){
+        bulletSystem.collisionWorld.removeAction(character.getComponent(CharacterComponent.class).characterController);
+        bulletSystem.collisionWorld.removeCollisionObject(character.getComponent(CharacterComponent.class).ghostObject);
+        character.getComponent(CharacterComponent.class).characterController.dispose();
+        character.getComponent(CharacterComponent.class).ghostObject.dispose();
+        character.getComponent(CharacterComponent.class).ghostShape.dispose();
+
         bulletSystem.dispose();
         bulletSystem = null;
         
