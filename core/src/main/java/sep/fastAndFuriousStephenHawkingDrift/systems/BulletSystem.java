@@ -18,15 +18,16 @@ import com.badlogic.gdx.physics.bullet.dynamics.btRigidBody;
 import com.badlogic.gdx.physics.bullet.dynamics.btSequentialImpulseConstraintSolver;
 
 import sep.fastAndFuriousStephenHawkingDrift.components.BulletComponent;
+import sep.fastAndFuriousStephenHawkingDrift.components.CharacterComponent;
 
 // extends EntitySystem: to add to Engine
 // implements EntityListener: detect when an entity is (added to / deleted from) physic world
 public class BulletSystem extends EntitySystem implements EntityListener{
-    public final btCollisionConfiguration collisionConfiguration;
-    public final btCollisionDispatcher dispatcher;
-    public final btBroadphaseInterface broadphase;
-    public final btConstraintSolver solver;
-    public final btDiscreteDynamicsWorld collisionWorld;
+    public btCollisionConfiguration collisionConfiguration;
+    public btCollisionDispatcher dispatcher;
+    public btBroadphaseInterface broadphase;
+    public btConstraintSolver solver;
+    public btDiscreteDynamicsWorld collisionWorld;
     private btGhostPairCallback ghostPairCallback;
 
     public int maxSubSteps = 5;
@@ -46,7 +47,7 @@ public class BulletSystem extends EntitySystem implements EntityListener{
         collisionWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
         ghostPairCallback = new btGhostPairCallback();
         broadphase.getOverlappingPairCache().setInternalGhostPairCallback(ghostPairCallback);
-        this.collisionWorld.setGravity(new Vector3(0, -0.5f, 0));
+        this.collisionWorld.setGravity(new Vector3(0, 0f, 0));
     }
 
     @Override
@@ -71,13 +72,11 @@ public class BulletSystem extends EntitySystem implements EntityListener{
         BulletComponent comp = entity.getComponent(BulletComponent.class);
         if (comp != null)
             collisionWorld.removeCollisionObject(comp.body);
-            /*
         CharacterComponent character = entity.getComponent(CharacterComponent.class);
         if (character != null){
             collisionWorld.removeAction(character.characterController);
             collisionWorld.removeCollisionObject(character.ghostObject);
         }
-        */
     }
 
     @Override // method from EntityListener

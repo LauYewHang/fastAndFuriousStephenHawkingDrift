@@ -15,9 +15,7 @@ import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.physics.bullet.Bullet;
 
 import sep.fastAndFuriousStephenHawkingDrift.components.CharacterComponent;
-import sep.fastAndFuriousStephenHawkingDrift.components.ModelComponent;
 import sep.fastAndFuriousStephenHawkingDrift.managers.EntityFactory;
-import static sep.fastAndFuriousStephenHawkingDrift.managers.EntityFactory.createStaticEntity;
 import sep.fastAndFuriousStephenHawkingDrift.systems.BulletSystem;
 import sep.fastAndFuriousStephenHawkingDrift.systems.PlayerSystem;
 import sep.fastAndFuriousStephenHawkingDrift.systems.RenderSystem;
@@ -57,11 +55,13 @@ public class GameWorld{
     // initialize 3D camera
     private void initPersCamera(){
         cam = new PerspectiveCamera(FOV, Main.VIRTUAL_WIDTH, Main.VIRTUAL_HEIGHT);
+        /*
         cam.position.set(30f, 40f, 30f);
         cam.lookAt(0f, 0f, 0f);
         cam.near = 1f;
         cam.far = 300f;
         cam.update();
+        */
     }
 
     // initialize environment
@@ -94,6 +94,9 @@ public class GameWorld{
     private void createPlayer(float x, float y, float z){
         character = EntityFactory.createPlayer(bulletSystem, x, y, z);
         engine.addEntity(character);
+        
+        engine.addEntity(EntityFactory.createCharacter(bulletSystem, x, y, z));
+        engine.addEntity(EntityFactory.createCharacter(bulletSystem, x, 40, z));
     }
 
 /*-------------------------------------------------------------------------------------------------*/
@@ -128,7 +131,6 @@ public class GameWorld{
     public void resize(int width, int height){
         cam.viewportHeight = height;
         cam.viewportWidth = width;
-        System.err.println("GameWorld resize");
     }
 
     public void render(float delta){

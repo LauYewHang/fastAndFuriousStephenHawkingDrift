@@ -81,10 +81,11 @@ public class EntityFactory{
         return entity;
     }
 
-    private static Entity createCharacter(BulletSystem bulletSystem, float x, float y, float z){
+    public static Entity createCharacter(BulletSystem bulletSystem, float x, float y, float z){
         Entity entity = new Entity();
 
         ModelComponent modelComponent = new ModelComponent(playerModel, x, y, z);
+        entity.add(modelComponent);
 
         CharacterComponent characterComponent = new CharacterComponent();
         characterComponent.ghostObject = new btPairCachingGhostObject();
@@ -95,17 +96,16 @@ public class EntityFactory{
         characterComponent.characterController = new btKinematicCharacterController(
             characterComponent.ghostObject,
             characterComponent.ghostShape,
-            0.35f
+            0.35f,
+            characterComponent.walkDirection // this one is important
         );
         characterComponent.ghostObject.userData = entity;
-
-        entity.add(modelComponent);
         entity.add(characterComponent);
 
         bulletSystem.collisionWorld.addCollisionObject(
             entity.getComponent(CharacterComponent.class).ghostObject,
             (short) btBroadphaseProxy.CollisionFilterGroups.CharacterFilter,
-            (short) btBroadphaseProxy.CollisionFilterGroups.AllFilter
+            (short) (btBroadphaseProxy.CollisionFilterGroups.AllFilter)
         );
 
         bulletSystem.collisionWorld.addAction(entity.getComponent(CharacterComponent.class).characterController);

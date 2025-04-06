@@ -1,5 +1,6 @@
 package sep.fastAndFuriousStephenHawkingDrift;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 
 public class GameScreen implements Screen{
@@ -9,7 +10,7 @@ public class GameScreen implements Screen{
     public GameScreen(Main game){
         this.game = game;
         gameWorld = new GameWorld();
-        //Gdx.input.setCursorCatched(true); // "focus" the cursor into the game, like you won't see your cursor anymore, it "blend" into it
+        Gdx.input.setCursorCatched(true); // "focus" the cursor into the game, like you won't see your cursor anymore, it "blend" into it
     }
 
     @Override
