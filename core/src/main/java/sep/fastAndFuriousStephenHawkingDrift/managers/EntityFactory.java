@@ -96,8 +96,8 @@ public class EntityFactory{
         characterComponent.characterController = new btKinematicCharacterController(
             characterComponent.ghostObject,
             characterComponent.ghostShape,
-            0.35f,
-            characterComponent.walkDirection // this one is important
+            0.35f
+            //characterComponent.walkDirection // this one is important
         );
         characterComponent.ghostObject.userData = entity;
         entity.add(characterComponent);

@@ -80,8 +80,6 @@ public class PlayerSystem extends EntitySystem implements EntityListener{
         characterComponent.walkDirection.add(tmp);
         characterComponent.walkDirection.scl(10f * delta);
         characterComponent.characterController.setWalkDirection(characterComponent.walkDirection);
-        System.err.print("???");
-        System.err.println(characterComponent.walkDirection);
 
         Matrix4 ghost = new Matrix4();
         Vector3 translation = new Vector3();
@@ -100,5 +98,7 @@ public class PlayerSystem extends EntitySystem implements EntityListener{
 
         camera.position.set(translation.x, translation.y, translation.z);
         camera.update(true);
+
+        System.err.println(characterComponent.ghostObject.getWorldTransform().getTranslation(new Vector3()));
     }
 }
